@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
       <div class="container">
         <router-link to="/" class="navbar-brand">
-          <img src="/images/exChange.png" alt="Currency Exchange Hub" style="height: 40px" />
+          <img src="/images/exChange.png" alt="Currency Exchange Hub" style="height: 80px" />
         </router-link>
         <button class="navbar-toggler" type="button" @click="navOpen = !navOpen">
           <span class="navbar-toggler-icon"></span>
