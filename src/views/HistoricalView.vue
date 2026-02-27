@@ -16,7 +16,6 @@
           </select>
         </div>
         <div class="col-md-4">
-          <!-- Rates are only fetched when the user clicks this button -->
           <button class="btn btn-primary w-100" @click="fetchHistoricalRates" :disabled="loading">
             {{ loading ? 'Loading...' : 'Load Rates' }}
           </button>
@@ -42,7 +41,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import CurrencyList from '../components/CurrencyList.vue'
-import { getCurrencies, getHistoricalRates } from '../services/frankfurter.js'
 
 const date = ref(new Date().toISOString().split('T')[0])
 const baseCurrency = ref('EUR')
@@ -52,26 +50,26 @@ const loadedDate = ref('')
 const loading = ref(false)
 const error = ref('')
 
-// Fetches all available currencies for the base currency dropdown
 async function fetchCurrencies() {
   try {
-    availableCurrencies.value = await getCurrencies()
-  } catch {
+    const response = await fetch('https://api.frankfurter.dev/currencies')
+    availableCurrencies.value = Object.keys(await response.json())
+  } catch (err) {
     error.value = 'Failed to load currency list.'
   }
 }
 
-// Fetches exchange rates for the selected date and base currency
 async function fetchHistoricalRates() {
   if (!date.value) return
   loading.value = true
   error.value = ''
   rates.value = []
   try {
-    const result = await getHistoricalRates(date.value, baseCurrency.value)
-    rates.value = result.rates
-    loadedDate.value = result.date
-  } catch {
+    const response = await fetch(`https://api.frankfurter.dev/${date.value}?from=${baseCurrency.value}`)
+    const data = await response.json()
+    rates.value = Object.entries(data.rates).map(([code, rate]) => ({ code, rate }))
+    loadedDate.value = data.date
+  } catch (err) {
     error.value = 'Could not fetch historical rates for the selected date. Please try another date.'
   } finally {
     loading.value = false
