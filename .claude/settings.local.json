@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(sleep 4:*)",
-      "Bash(cd /c/Users/scott/Desktop/ITHS/JSRamverk/Vite/Lab2 && npx cypress run --headless 2>&1)",
-      "Bash(curl:*)"
-    ]
-  }
-}
