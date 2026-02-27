@@ -1,11 +1,11 @@
 describe('Currency Exchange App', () => {
   it('navigates between pages using the navbar', () => {
     cy.visit('/')
-    cy.contains('Historical Data').click()
+    cy.contains('Historical').click()
     cy.url().should('include', '/historical')
     cy.contains('Converter').click()
     cy.url().should('include', '/converter')
-    cy.contains('Latest Rates').click()
+    cy.contains('Live Rates').click()
     cy.url().should('include', '/live')
   })
 
@@ -24,8 +24,9 @@ describe('Currency Exchange App', () => {
 
   it('converts currency and shows a result', () => {
     cy.visit('/converter')
+    cy.get('#fromCurrency option', { timeout: 10000 }).should('have.length.at.least', 2)
     cy.get('#amount').clear().type('250')
-    cy.contains('Convert').click()
+    cy.contains('button', 'Convert').click()
     cy.get('.alert', { timeout: 10000 }).should('contain', '250')
   })
 

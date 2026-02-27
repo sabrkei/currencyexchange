@@ -9,24 +9,19 @@
   </ul>
 </template>
 
-<script>
+<script setup>
 import CurrencyItem from './CurrencyItem.vue'
 
-export default {
-  name: 'CurrencyList',
-  components: { CurrencyItem },
-
-  props: {
-    currencies: {
-      type: Array,
-      required: true,
-    },
+defineProps({
+  currencies: {
+    type: Array,
+    required: true,
   },
+})
 
-  methods: {
-    emitClick(code) {
-      this.$emit('currency-clicked', code)
-    },
-  },
+const emit = defineEmits(['currency-clicked'])
+
+function emitClick(code) {
+  emit('currency-clicked', code)
 }
 </script>

@@ -1,36 +1,39 @@
 <template>
-  <div class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
-      <div class="container">
-        <router-link to="/" class="navbar-brand">
-          <img src="/images/exChange.png" alt="Currency Exchange Hub" style="height: 80px" />
-        </router-link>
-        <button class="navbar-toggler" type="button" @click="navOpen = !navOpen">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4 py-1">
+      <div class="container align-items-center">
+        <RouterLink class="navbar-brand" to="/live">
+          <img src="/images/logo.png" alt="Logo" height="150">
+        </RouterLink>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" :class="{ show: navOpen }">
-          <div class="navbar-nav ms-auto gap-2">
-            <router-link to="/live" class="btn btn-outline-primary" @click="navOpen = false">Latest Rates</router-link>
-            <router-link to="/historical" class="btn btn-outline-primary" @click="navOpen = false">Historical Data</router-link>
-            <router-link to="/converter" class="btn btn-outline-primary" @click="navOpen = false">Converter</router-link>
-          </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav fs-5 gap-2">
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/live">Live Rates</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/converter">Converter</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/historical">Historical</RouterLink>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
-    <main class="container flex-grow-1 py-4" style="max-width: 900px">
-      <router-view />
-    </main>
-    <footer class="text-center py-3 border-top text-muted small">
-      <p>Lab2 - Vite Project with Cypress Tests <a href="https://gbg-web.com/" target="_blank">GBG-Web</a></p>
-    </footer>
-  </div>
+  </header>
+
+  <main class="container">
+    <RouterView />
+  </main>
+
+  <footer class="border-top mt-5 py-4 text-center text-muted">
+    Historical Currency Exchange by <a href="https://gbg-web.com" target="_blank" rel="noopener">gbg-web.com</a>
+  </footer>
 </template>
 
-<script>
-export default {
-  name: 'App',
-  data() {
-    return { navOpen: false }
-  },
-}
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
 </script>

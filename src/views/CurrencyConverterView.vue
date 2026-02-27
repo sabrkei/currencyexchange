@@ -21,6 +21,7 @@
             <option v-for="c in availableCurrencies" :key="c" :value="c">{{ c }}</option>
           </select>
         </div>
+        <!-- Swap button reverses the from/to currencies -->
         <div class="col-auto">
           <button class="btn btn-outline-secondary" @click="swapCurrencies" title="Swap currencies">&#8646;</button>
         </div>
@@ -34,6 +35,7 @@
       <button class="btn btn-primary w-100" @click="convert" :disabled="loading">
         {{ loading ? 'Converting...' : 'Convert' }}
       </button>
+      <!-- Result shown after a successful conversion -->
       <div v-if="result !== null" class="alert alert-success text-center mt-3">
         <span>{{ amount }} {{ fromCurrency }}</span>
         <span class="mx-2">=</span>
@@ -44,61 +46,50 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'CurrencyConverterView',
+<script setup>
+import { ref, onMounted } from 'vue'
+import { getCurrencies, convertCurrency } from '../services/frankfurter.js'
 
-  data() {
-    return {
-      amount: 100,
-      fromCurrency: 'EUR',
-      toCurrency: 'USD',
-      result: null,
-      loading: false,
-      error: '',
-      availableCurrencies: [],
-    }
-  },
+const ALLOWED = ['EUR', 'USD', 'GBP', 'NOK', 'DKK', 'SEK', 'AUD', 'CNY']
 
-  created() {
-    this.fetchCurrencies()
-  },
+const amount = ref(100)
+const fromCurrency = ref('EUR')
+const toCurrency = ref('USD')
+const result = ref(null)
+const loading = ref(false)
+const error = ref('')
+const availableCurrencies = ref([])
 
-  methods: {
-    async fetchCurrencies() {
-      try {
-        const response = await fetch('https://api.frankfurter.dev/v1/currencies')
-        const data = await response.json()
-        const allowed = ['EUR','USD','GBP','NOK','DKK','SEK','AUD','CNY']
-        this.availableCurrencies = Object.keys(data).filter(c => allowed.includes(c))
-      } catch (err) {
-        this.error = 'Failed to load currency list.'
-      }
-    },
+onMounted(fetchCurrencies)
 
-    swapCurrencies() {
-      const temp = this.fromCurrency
-      this.fromCurrency = this.toCurrency
-      this.toCurrency = temp
-    },
+// Fetches the allowed currencies for the dropdowns
+async function fetchCurrencies() {
+  try {
+    const all = await getCurrencies()
+    availableCurrencies.value = all.filter(c => ALLOWED.includes(c))
+  } catch {
+    error.value = 'Failed to load currency list.'
+  }
+}
 
-    async convert() {
-      if (this.fromCurrency === this.toCurrency) {
-        this.result = this.amount
-        return
-      }
-      this.loading = true
-      this.error = ''
-      try {
-        const url = `https://api.frankfurter.dev/v1/latest?amount=${this.amount}&from=${this.fromCurrency}&to=${this.toCurrency}`
-        const response = await fetch(url)
-        const data = await response.json()
-        this.result = data.rates[this.toCurrency]
-      } catch (err) {
-        this.error = 'Conversion failed. Please try again.'
-      }
-      this.loading = false
-    },
-  },
+// Swaps the from and to currency selections
+function swapCurrencies() {
+  ;[fromCurrency.value, toCurrency.value] = [toCurrency.value, fromCurrency.value]
+}
+
+// Converts the entered amount using the Frankfurter API
+async function convert() {
+  if (fromCurrency.value === toCurrency.value) {
+    result.value = amount.value
+    return
+  }
+  loading.value = true
+  error.value = ''
+  try {
+    result.value = await convertCurrency(amount.value, fromCurrency.value, toCurrency.value)
+  } catch {
+    error.value = 'Conversion failed. Please try again.'
+  }
+  loading.value = false
 }
 </script>

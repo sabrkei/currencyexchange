@@ -1,0 +1,153 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --bs-primary: #004da4;
+  --bs-primary-rgb: 94, 93, 240;
+  --accent: #004da4;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f6fb;
+  color: #1a1a2e;
+}
+
+h1, h2, h3, h4, h5, .navbar-brand {
+  font-family: 'Poppins', sans-serif;
+}
+
+#app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navbar {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.navbar-brand img {
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.04);
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: #444 !important;
+  padding: 0.4rem 0.8rem !important;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-link:hover {
+  background-color: rgba(94, 93, 240, 0.08);
+  color: var(--accent) !important;
+}
+
+.nav-link.router-link-exact-active {
+  color: var(--accent) !important;
+  background-color: rgba(94, 93, 240, 0.1);
+  border-bottom: 2px solid var(--accent);
+}
+
+.card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(94, 93, 240, 0.08);
+  background: #fff;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.list-group {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.list-group-item {
+  border-color: #eef0f8;
+  padding: 0.75rem 1.25rem;
+  transition: background-color 0.15s;
+  background-color: #fff;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0ff;
+}
+
+.list-group-item .fw-bold {
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+  border-radius: 8px;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.btn-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+  border-radius: 8px;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+  border-color: #d8daf0;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.2);
+}
+
+.alert-success {
+  background-color: #eefaf3;
+  border-color: #b2e8cc;
+  color: #1fb469;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.currency-flag {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 3px;
+  margin-right: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+footer {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
